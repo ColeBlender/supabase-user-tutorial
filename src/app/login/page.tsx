@@ -1,6 +1,6 @@
 "use client";
 
-import { loginAction } from "../../../src-tutorial/actions/users";
+import { loginAction } from "@/actions/users";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";

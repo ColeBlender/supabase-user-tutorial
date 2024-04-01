@@ -1,6 +1,6 @@
-import DeleteAccountButton from "../../src-tutorial/components/DeleteAccountButton";
-import SignOutButton from "../../src-tutorial/components/SignOutButton";
-import { getUser } from "../../src-tutorial/lib/auth";
+import DeleteAccountButton from "@/components/DeleteAccountButton";
+import SignOutButton from "@/components/SignOutButton";
+import { getUser } from "@/lib/auth";
 import Link from "next/link";
 
 export default async function Home() {

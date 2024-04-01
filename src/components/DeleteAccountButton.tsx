@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAccountAction } from "../../src-tutorial/actions/users";
+import { deleteAccountAction } from "@/actions/users";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 

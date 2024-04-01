@@ -1,6 +1,6 @@
 "use server";
 
-import { getSupabaseAuth, protect } from "../../src-tutorial/lib/auth";
+import { getSupabaseAuth, protect } from "@/lib/auth";
 
 export const loginAction = async (formData: FormData) => {
   try {
