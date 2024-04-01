@@ -1,7 +1,33 @@
-export default function Home() {
+import DeleteAccountButton from "@/components/DeleteAccountButton";
+import SignOutButton from "@/components/SignOutButton";
+import { getUser } from "@/lib/auth";
+import Link from "next/link";
+
+export default async function Home() {
+  const user = await getUser();
+
   return (
-    <main className="flex flex-col min-h-screen bg-slate-800 text-slate-200 justify-center items-center pb-40">
-      ASS
-    </main>
+    <>
+      {user ? (
+        <>
+          <p className="mb-4">Logged in as {user.email}</p>
+
+          <SignOutButton />
+
+          <DeleteAccountButton userId={user.id} />
+        </>
+      ) : (
+        <>
+          <p className="mb-4">Not logged in</p>
+
+          <Link
+            href="/login"
+            className="bg-emerald-700 py-2 text-center rounded-lg w-56"
+          >
+            Login
+          </Link>
+        </>
+      )}
+    </>
   );
 }
