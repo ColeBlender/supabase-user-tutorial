@@ -1,20 +1,19 @@
-import DeleteAccountButton from "../../src-tutorial/components/DeleteAccountButton";
-import SignOutButton from "../../src-tutorial/components/SignOutButton";
-import { getUser } from "../../src-tutorial/lib/auth";
+import DeleteAccountButton from "../components/DeleteAccountButton";
+import SignOutButton from "../components/SignOutButton";
 import Link from "next/link";
 
 export default async function Home() {
-  const user = await getUser();
+  const user = null;
 
   return (
     <>
       {user ? (
         <>
-          <p className="mb-4">Logged in as {user.email}</p>
+          <p className="mb-4">Logged in</p>
 
           <SignOutButton />
 
-          <DeleteAccountButton userId={user.id} />
+          <DeleteAccountButton userId={"userId"} />
         </>
       ) : (
         <>
