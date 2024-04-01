@@ -1,27 +1,9 @@
 "use client";
 
-import { createAccountAction } from "@/actions/users";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import toast from "react-hot-toast";
 
 function CreateAccountPage() {
-  const router = useRouter();
-
-  const [isPending, startTransition] = useTransition();
-
-  const handleClickCreateAccountButton = (formData: FormData) => {
-    startTransition(async () => {
-      const { errorMessage } = await createAccountAction(formData);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      } else {
-        toast.success("Verification email sent");
-        router.push("/");
-      }
-    });
-  };
+  const handleClickCreateAccountButton = (formData: FormData) => {};
 
   return (
     <div>
@@ -36,21 +18,16 @@ function CreateAccountPage() {
           name="email"
           className="rounded-lg p-2 text-black"
           placeholder="Email"
-          disabled={isPending}
         />
         <input
           type="password"
           name="password"
           className="rounded-lg p-2 text-black"
           placeholder="Password"
-          disabled={isPending}
         />
 
-        <button
-          className="bg-black rounded-lg p-2 mt-4 mb-2"
-          disabled={isPending}
-        >
-          {isPending ? "Creating Account..." : "Create Account"}
+        <button className="bg-black rounded-lg p-2 mt-4 mb-2">
+          Create Account
         </button>
 
         <p className="text-center">
