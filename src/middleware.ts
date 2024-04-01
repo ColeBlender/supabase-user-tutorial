@@ -9,28 +9,24 @@ export async function middleware(request: NextRequest) {
   });
 
   const path = new URL(request.url).pathname;
-  const unprotectedPaths = ["/admin/login", "/admin/create-account"];
+  if (path === "/") return response;
 
-  if (path.startsWith("/admin")) {
-    const user = await getUser(request, response);
-    const isUnprotectedPath = unprotectedPaths.some((up) =>
-      path.startsWith(up),
-    );
+  const unprotectedPaths = ["/login", "/create-account"];
 
-    if (user && isUnprotectedPath) {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    } else if (!user && !isUnprotectedPath) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
-    }
+  const user = await getUser(request, response);
+  const isUnprotectedPath = unprotectedPaths.some((up) => path.startsWith(up));
+
+  if (user && isUnprotectedPath) {
+    return NextResponse.redirect(new URL("/", request.url));
+  } else if (!user && !isUnprotectedPath) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return response;
 }
 
 export const config = {
-  matcher: [
-    "/admin/:path*", // Apply middleware to all paths under /admin
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
 
 async function getUser(request: NextRequest, response: NextResponse) {
@@ -77,7 +73,7 @@ async function getUser(request: NextRequest, response: NextResponse) {
           });
         },
       },
-    },
+    }
   );
 
   const user = (await supabaseClient.auth.getUser()).data.user;

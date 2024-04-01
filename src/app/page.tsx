@@ -28,6 +28,13 @@ export default async function Home() {
           </Link>
         </>
       )}
+
+      <Link
+        href="/protected"
+        className="bg-emerald-700 py-2 text-center rounded-lg w-56 mt-4"
+      >
+        Go to protected page
+      </Link>
     </>
   );
 }
