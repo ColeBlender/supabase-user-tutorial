@@ -11,7 +11,12 @@ export async function middleware(request: NextRequest) {
   const path = new URL(request.url).pathname;
   if (path === "/") return response;
 
-  const unprotectedPaths = ["/login", "/create-account"];
+  const unprotectedPaths = [
+    "/login",
+    "/create-account",
+    "/forgot-password",
+    "/reset-password",
+  ];
 
   const user = await getUser(request, response);
   const isUnprotectedPath = unprotectedPaths.some((up) => path.startsWith(up));
@@ -73,7 +78,7 @@ async function getUser(request: NextRequest, response: NextResponse) {
           });
         },
       },
-    }
+    },
   );
 
   const user = (await supabaseClient.auth.getUser()).data.user;
