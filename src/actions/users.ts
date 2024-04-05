@@ -1,7 +1,66 @@
 "use server";
 
+import { getSupabaseAuth, protect } from "@/lib/auth";
+
+export const resetPasswordAction = async (code: string, formData: FormData) => {
+  try {
+    const password = formData.get("password") as string;
+    const auth = getSupabaseAuth();
+
+    const { error: codeError } = await auth.exchangeCodeForSession(code);
+    if (codeError) throw codeError;
+
+    const { error: updateError, data } = await auth.updateUser({
+      password,
+    });
+
+    if (updateError) throw codeError;
+    return { data: data, errorMessage: null };
+  } catch (error) {
+    let errorMessage = "An error occurred";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return { errorMessage };
+  }
+};
+
+export const forgotPasswordAction = async (formData: FormData) => {
+  try {
+    const callbackURL = "http://localhost:3000/reset-password";
+    const email = formData.get("email") as string;
+
+    const auth = getSupabaseAuth();
+
+    const { data, error } = await auth.resetPasswordForEmail(email, {
+      redirectTo: callbackURL,
+    });
+    if (error) throw error;
+
+    return { data: data, errorMessage: null };
+  } catch (error) {
+    let errorMessage = "An error occurred";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return { errorMessage };
+  }
+};
+
 export const loginAction = async (formData: FormData) => {
   try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const auth = getSupabaseAuth();
+
+    const { data, error } = await auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw error;
+    if (!data.session) throw new Error("No session");
+
     return { errorMessage: null };
   } catch (error) {
     let errorMessage = "An error occurred";
@@ -14,6 +73,13 @@ export const loginAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   try {
+    await protect();
+
+    const auth = getSupabaseAuth();
+
+    const { error } = await auth.signOut();
+    if (error) throw error;
+
     return { errorMessage: null };
   } catch (error) {
     let errorMessage = "An error occurred";
@@ -26,6 +92,18 @@ export const signOutAction = async () => {
 
 export const createAccountAction = async (formData: FormData) => {
   try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const auth = getSupabaseAuth();
+
+    const { data, error } = await auth.signUp({
+      email,
+      password,
+    });
+    if (error) throw error;
+    if (!data) throw new Error("No data");
+
     return { errorMessage: null };
   } catch (error) {
     let errorMessage = "An error occurred";
@@ -38,6 +116,15 @@ export const createAccountAction = async (formData: FormData) => {
 
 export const deleteAccountAction = async (userId: string) => {
   try {
+    await protect();
+
+    const { error: signOutError } = await getSupabaseAuth().signOut();
+    if (signOutError) throw signOutError;
+
+    const { error: deleteError } =
+      await getSupabaseAuth("deleteAccount").admin.deleteUser(userId);
+    if (deleteError) throw deleteError;
+
     return { errorMessage: null };
   } catch (error) {
     let errorMessage = "An error occurred";

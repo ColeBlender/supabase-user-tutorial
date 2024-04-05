@@ -42,7 +42,7 @@ export const getSupabaseAuth = (deleteAccount: "" | "deleteAccount" = "") => {
           } catch (error) {}
         },
       },
-    }
+    },
   );
   return supabaseClient.auth;
 };
