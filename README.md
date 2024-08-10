@@ -1,7 +1,13 @@
 # Next.js 14 x Supabase Auth
 
-Start with src and follow along
+My links:
 
-Use src-final as reference if want to copy and paste final code
+- My personal website 👉 https://coleblender.com
+- My business website 👉 https://superlativesites.com
+- YouTube 👉 https://youtube.com/@coleblender
+- GitHub 👉 https://github.com/ColeBlender
+- X 👉 https://x.com/ColeBlender
+- IG 👉 https://instagram.com/yazzibelani
+- LinkedIn 👉 https://linkedin.com/in/cole-blender
 
 Video 👉 https://www.youtube.com/watch?v=Hwyfz84wwNc&t=463s
